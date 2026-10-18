@@ -1,0 +1,10 @@
+Ссылки для mimasek135. Создайте публичный репозиторий onlinecourse-project и загрузите проект в ветку main.
+До загрузки ссылки не работают.
+
+Task 1: https://github.com/mimasek135/onlinecourse-project/blob/main/onlinecourse/models.py
+Task 2: https://github.com/mimasek135/onlinecourse-project/blob/main/onlinecourse/admin.py
+Task 4: https://github.com/mimasek135/onlinecourse-project/blob/main/onlinecourse/templates/onlinecourse/course_details_bootstrap.html
+Task 5: https://github.com/mimasek135/onlinecourse-project/blob/main/onlinecourse/views.py
+Task 6: https://github.com/mimasek135/onlinecourse-project/blob/main/onlinecourse/urls.py
+Task 3: upload screenshots/03-admin-site.png
+Task 7: upload screenshots/07-final.png

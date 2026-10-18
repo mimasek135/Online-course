@@ -1,0 +1,10 @@
+{% extends 'onlinecourse/base.html' %}
+{% block title %}Exam results · OnlineCourse{% endblock %}
+{% block content %}
+<div class="hero"><p class="eyebrow">{{ course.name }} · Mock exam</p>
+{% if passed %}<h1>Congratulations!</h1><p>You passed the exam. Great work!</p>{% else %}<h1>Keep practicing</h1><p>Review the lessons and try again.</p>{% endif %}
+<div class="score">Score: {{ score|floatformat:0 }}%</div><p>{{ earned }} / {{ total }} points · Pass mark: 80%</p></div>
+<h2 class="mb-3">Exam results</h2>
+{% for result in results %}<section class="card p-4 mb-3"><div class="d-flex justify-content-between"><h3 class="h5">{{ forloop.counter }}. {{ result.question.content }}</h3><span class="badge {% if result.correct %}bg-success{% else %}bg-danger{% endif %}">{% if result.correct %}Correct{% else %}Incorrect{% endif %}</span></div><p class="mb-1">Your answer: {% for choice in result.selected %}{{ choice.content }}{% if not forloop.last %}; {% endif %}{% empty %}No answer{% endfor %}</p><p class="mb-0 muted">Correct answer: {% for choice in result.answers %}{{ choice.content }}{% if not forloop.last %}; {% endif %}{% endfor %}</p></section>{% endfor %}
+<a class="btn btn-primary mt-2" href="{% url 'onlinecourse:course_details' course.id %}">Back to course</a>
+{% endblock %}

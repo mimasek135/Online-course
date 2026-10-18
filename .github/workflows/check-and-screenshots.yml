@@ -1,0 +1,45 @@
+name: Check project and capture screenshots
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m pip install -r requirements-screenshots.txt
+          python -m playwright install --with-deps chromium
+      - name: Check migrations and run tests
+        run: |
+          python manage.py check
+          python manage.py makemigrations --check --dry-run
+          python manage.py test
+      - name: Prepare demo database
+        run: |
+          python manage.py migrate
+          python manage.py seed_demo
+      - name: Start application and capture screenshots
+        run: |
+          python manage.py runserver 127.0.0.1:8000 --noreload > /tmp/onlinecourse.log 2>&1 &
+          python - <<'PYTHON'
+          import time, urllib.request
+          for attempt in range(30):
+              try:
+                  urllib.request.urlopen('http://127.0.0.1:8000/', timeout=2)
+                  break
+              except OSError:
+                  time.sleep(1)
+          else:
+              raise SystemExit('Server did not start')
+          PYTHON
+          python scripts/capture_screenshots.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: assignment-screenshots
+          path: screenshots/*.png
+          if-no-files-found: error
